@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.disease_server_system.mapper.HealthDao">
+
+    <resultMap type="com.example.disease_server_system.entity.Health" id="HealthMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="myPhysicalCondition" column="my_physical_condition" jdbcType="VARCHAR"/>
+        <result property="familyPhysicalCondition" column="family_physical_condition" jdbcType="VARCHAR"/>
+        <result property="huBei" column="hu_bei" jdbcType="BIT"/>
+        <result property="abroad" column="abroad" jdbcType="BIT"/>
+        <result property="foreignRelatives" column="foreign_relatives" jdbcType="BIT"/>
+        <result property="contactCase" column="contact_case" jdbcType="BIT"/>
+        <result property="contactForeigner" column="contact_foreigner" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, my_physical_condition, family_physical_condition, hu_bei, abroad, foreign_relatives,
+        contact_case, contact_foreigner
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="HealthMap">
+        select
+        <include refid="Base_Column_List" />
+        from disease_system.health
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="HealthMap">
+        select
+        <include refid="Base_Column_List" />
+        from disease_system.health
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="HealthMap">
+        select
+        <include refid="Base_Column_List" />
+        from disease_system.health
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="myPhysicalCondition != null and myPhysicalCondition != ''">
+                and my_physical_condition = #{myPhysicalCondition}
+            </if>
+            <if test="familyPhysicalCondition != null and familyPhysicalCondition != ''">
+                and family_physical_condition = #{familyPhysicalCondition}
+            </if>
+            <if test="huBei != null">
+                and hu_bei = #{huBei}
+            </if>
+            <if test="abroad != null">
+                and abroad = #{abroad}
+            </if>
+            <if test="foreignRelatives != null">
+                and foreign_relatives = #{foreignRelatives}
+            </if>
+            <if test="contactCase != null">
+                and contact_case = #{contactCase}
+            </if>
+            <if test="contactForeigner != null">
+                and contact_foreigner = #{contactForeigner}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into disease_system.health(user_id, my_physical_condition, family_physical_condition, hu_bei, abroad, foreign_relatives, contact_case, contact_foreigner)
+        values (#{userId}, #{myPhysicalCondition}, #{familyPhysicalCondition}, #{huBei}, #{abroad}, #{foreignRelatives}, #{contactCase}, #{contactForeigner})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update disease_system.health
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="myPhysicalCondition != null and myPhysicalCondition != ''">
+                my_physical_condition = #{myPhysicalCondition},
+            </if>
+            <if test="familyPhysicalCondition != null and familyPhysicalCondition != ''">
+                family_physical_condition = #{familyPhysicalCondition},
+            </if>
+            <if test="huBei != null">
+                hu_bei = #{huBei},
+            </if>
+            <if test="abroad != null">
+                abroad = #{abroad},
+            </if>
+            <if test="foreignRelatives != null">
+                foreign_relatives = #{foreignRelatives},
+            </if>
+            <if test="contactCase != null">
+                contact_case = #{contactCase},
+            </if>
+            <if test="contactForeigner != null">
+                contact_foreigner = #{contactForeigner},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from disease_system.health where id = #{id}
+    </delete>
+
+</mapper>

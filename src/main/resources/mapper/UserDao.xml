@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.disease_server_system.mapper.UserDao">
+
+    <resultMap type="com.example.disease_server_system.entity.User" id="UserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+        <result property="qq" column="qq" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="VARCHAR"/>
+        <result property="wechat" column="wechat" jdbcType="VARCHAR"/>
+        <result property="college" column="college" jdbcType="VARCHAR"/>
+        <result property="major" column="major" jdbcType="VARCHAR"/>
+        <result property="livingCity" column="living_city" jdbcType="VARCHAR"/>
+        <result property="hometown" column="hometown" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_name, email, create_time, telephone, qq, update_time, wechat, college, major, living_city, hometown, sex, password
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List" />
+        from disease_system.user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List" />
+        from disease_system.user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List" />
+        from disease_system.user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                and telephone = #{telephone}
+            </if>
+            <if test="qq != null and qq != ''">
+                and qq = #{qq}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="wechat != null and wechat != ''">
+                and wechat = #{wechat}
+            </if>
+            <if test="college != null and college != ''">
+                and college = #{college}
+            </if>
+            <if test="major != null and major != ''">
+                and major = #{major}
+            </if>
+            <if test="livingCity != null and livingCity != ''">
+                and living_city = #{livingCity}
+            </if>
+            <if test="hometown != null and hometown != ''">
+                and hometown = #{hometown}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into disease_system.user(user_name, email, create_time, telephone, qq, update_time, wechat, college, major, living_city, hometown, sex, password)
+        values (#{userName}, #{email}, #{createTime}, #{telephone}, #{qq}, #{updateTime}, #{wechat}, #{college}, #{major}, #{livingCity}, #{hometown}, #{sex}, #{password})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update disease_system.user
+        <set>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="wechat != null and wechat != ''">
+                wechat = #{wechat},
+            </if>
+            <if test="college != null and college != ''">
+                college = #{college},
+            </if>
+            <if test="major != null and major != ''">
+                major = #{major},
+            </if>
+            <if test="livingCity != null and livingCity != ''">
+                living_city = #{livingCity},
+            </if>
+            <if test="hometown != null and hometown != ''">
+                hometown = #{hometown},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from disease_system.user where id = #{id}
+    </delete>
+
+    <!--通过邮箱查询用户-->
+    <select id="queryByEmail" parameterType="String" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List" />
+        from user where email=#{eamil}
+    </select>
+
+</mapper>
