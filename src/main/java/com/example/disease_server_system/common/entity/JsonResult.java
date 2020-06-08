@@ -1,9 +1,11 @@
 package com.example.disease_server_system.common.entity;
 
 import com.example.disease_server_system.common.enums.ResultCode;
+import lombok.Data;
 
 import java.io.Serializable;
 
+@Data
 public class JsonResult<T> implements Serializable{
     private Boolean success;
     private Integer errorCode;
@@ -36,38 +38,6 @@ public class JsonResult<T> implements Serializable{
         this.success = success;
         this.errorCode = success ? ResultCode.SUCCESS.getCode() : (resultEnum == null ? ResultCode.COMMON_FAIL.getCode() : resultEnum.getCode());
         this.errorMsg = success ? ResultCode.SUCCESS.getMessage() : (resultEnum == null ? ResultCode.COMMON_FAIL.getMessage() : resultEnum.getMessage());
-        this.data = data;
-    }
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
-    public Integer getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
         this.data = data;
     }
 }
