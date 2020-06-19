@@ -4,10 +4,10 @@ import com.example.disease_server_system.entity.Role;
 import java.util.List;
 
 /**
- * (Role)表服务接口
+ * 权限表(Role)表服务接口
  *
- * @author makejava
- * @since 2020-05-23 11:01:25
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 public interface RoleService {
 
@@ -18,15 +18,13 @@ public interface RoleService {
      * @return 实例对象
      */
     Role queryById(Integer id);
-
+ 
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
-    List<Role> queryAllByLimit(int offset, int limit);
+    List<Role> queryAll();
 
     /**
      * 新增数据
@@ -51,5 +49,27 @@ public interface RoleService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+    
+    /**
+     * 选择性插入数据
+     *
+     * @param role 实例对象
+     * @return 实例对象
+     */
+    Role insertSelective(Role role);
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     Integer count();
 
+    /**
+     * 根据用户id查询角色列表
+     * @param userId 用户id
+     * @return 角色列表
+     */
+     String queryByUserId(Integer userId);
+     
 }

@@ -1,27 +1,30 @@
 package com.example.disease_server_system.controller;
 
+import com.example.disease_server_system.common.entity.JsonResult;
+import com.example.disease_server_system.common.utils.ResultTool;
 import com.example.disease_server_system.entity.Log;
 import com.example.disease_server_system.service.LogService;
+import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 /**
  * 日志表(Log)表控制层
  *
- * @author makejava
- * @since 2020-05-23 10:56:22
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
+@Api(tags = "日志表(Log)") 
 @RestController
 @RequestMapping("log")
-@Api("日志信息接口")
 public class LogController {
     /**
      * 服务对象
      */
-    @Resource
+    @Autowired
     private LogService logService;
 
     /**
@@ -30,39 +33,76 @@ public class LogController {
      * @param id 主键
      * @return 单条数据
      */
-    @ApiOperation("通过主键查询单条数据")
+    @ApiOperation(value = "根据id查询 日志表")
     @GetMapping("selectOne")
-    public Log selectOne(Integer id) {
-        return this.logService.queryById(id);
+    public JsonResult selectOne(@ApiParam(value = " ID") Integer id) {
+        return ResultTool.success(this.logService.queryById(id));
     }
-
+    
     /**
-     * 插入一条日志记录
-     * @param log
+     * 增加一条记录(只填入不为空的字段)
+     * @param log 实例对象
      */
-    @ApiOperation("插入一条日志记录")
+    @ApiOperation("增加一条记录(只填入不为空的字段)")
+    @PostMapping("insertSelective")
+    public JsonResult insertSelective(Log log){
+        this.logService.insertSelective(log);
+        return ResultTool.success();
+    }
+    
+    /**
+     * 增加一条记录(填入所有字段)
+     * @param log 实例对象
+     */
+    @ApiOperation("增加一条记录(填入所有字段)")
     @PostMapping("insert")
-    public void insert(Log log){
-        logService.insert(log);
+    public JsonResult insert(Log log){
+        this.logService.insert(log);
+        return ResultTool.success();
     }
-
+    
     /**
-     * 更新一条日志记录
-     * @param log
+     * 更新一条记录(只对不为空的字段进行更新)
+     * @param log 实例对象
      */
-    @ApiOperation("更新一条日志记录")
+    @ApiOperation("更新一条记录(只对不为空的字段进行更新)")
     @PutMapping("update")
-    public void update(Log log){
-        logService.update(log);
+    public JsonResult update(Log log){
+        this.logService.update(log);
+        return ResultTool.success();
     }
-
+    
     /**
-     * 删除一条日志记录
+     * 根据id删除一条记录
      * @param id
      */
-    @ApiOperation("删除一条日志记录")
+    @ApiOperation("根据id删除一条记录")
     @DeleteMapping("delete")
-    public void delete(Integer id){
-        logService.deleteById(id);
+    public JsonResult delete(@ApiParam(value = " ID") Integer id){
+        this.logService.deleteById(id);
+        return ResultTool.success();
     }
+    
+    /**
+     * 查询所有数据
+     *
+     * @return 对象列表
+     */
+    @ApiOperation(value = "查询表中所有数据")
+    @GetMapping("selectAll")   
+    public JsonResult selectAll() {
+        return ResultTool.success(this.logService.queryAll());
+    }
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     @ApiOperation(value = "返回表中行数")
+     @GetMapping("count")
+     public JsonResult count() {
+        return ResultTool.success(this.logService.count());
+     }
+
 }

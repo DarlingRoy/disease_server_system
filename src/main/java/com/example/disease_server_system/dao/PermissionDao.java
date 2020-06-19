@@ -1,17 +1,19 @@
-package com.example.disease_server_system.mapper;
+package com.example.disease_server_system.dao;
 
 import com.example.disease_server_system.entity.Permission;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * 权限表(Permission)表数据库访问层
  *
- * @author makejava
- * @since 2020-05-23 10:59:33
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 @Mapper
+@Repository 
 public interface PermissionDao {
 
     /**
@@ -23,22 +25,11 @@ public interface PermissionDao {
     Permission queryById(Integer id);
 
     /**
-     * 查询指定行数据
+     * 查找所有记录
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
-    List<Permission> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
-
-
-    /**
-     * 通过实体作为筛选条件查询
-     *
-     * @param permission 实例对象
-     * @return 对象列表
-     */
-    List<Permission> queryAll(Permission permission);
+    List<Permission> queryAll();
 
     /**
      * 新增数据
@@ -63,6 +54,21 @@ public interface PermissionDao {
      * @return 影响行数
      */
     int deleteById(Integer id);
+    
+    /**
+     * 选择性插入数据
+     *
+     * @param permission 实例对象
+     * @return 影响行数
+     */
+    int insertSelective(Permission permission);
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+    Integer count();
 
     /**
      * 通过userId找到user对应的权限
@@ -71,5 +77,4 @@ public interface PermissionDao {
      * @return
      */
     List<Permission> queryByUserId(Integer userId);
-
 }

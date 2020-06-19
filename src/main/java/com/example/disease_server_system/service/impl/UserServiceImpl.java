@@ -1,22 +1,22 @@
 package com.example.disease_server_system.service.impl;
 
 import com.example.disease_server_system.entity.User;
-import com.example.disease_server_system.mapper.UserDao;
+import com.example.disease_server_system.dao.UserDao;
 import com.example.disease_server_system.service.UserService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
  * 用户表(User)表服务实现类
  *
- * @author makejava
- * @since 2020-05-23 11:04:15
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-    @Resource
+    @Autowired
     private UserDao userDao;
 
     /**
@@ -29,17 +29,15 @@ public class UserServiceImpl implements UserService {
     public User queryById(Integer id) {
         return this.userDao.queryById(id);
     }
-
+    
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
     @Override
-    public List<User> queryAllByLimit(int offset, int limit) {
-        return this.userDao.queryAllByLimit(offset, limit);
+    public List<User> queryAll() {
+        return this.userDao.queryAll();
     }
 
     /**
@@ -76,6 +74,28 @@ public class UserServiceImpl implements UserService {
     public boolean deleteById(Integer id) {
         return this.userDao.deleteById(id) > 0;
     }
+    
+    /**
+     * 选择性新增数据
+     *
+     * @param user 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public User insertSelective(User user) {
+        this.userDao.insert(user);
+        return user;
+    }
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     @Override
+     public Integer count(){
+        return userDao.count();
+     }
 
     /**
      * 通过邮箱查询用户
@@ -86,5 +106,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User queryByEmail(String email){
         return userDao.queryByEmail(email);
+    }
+
+    /**
+     * 根据可选字段查询用户
+     *
+     * @param user 用户可选字段
+     * @return 用户列表
+     */
+    @Override
+    public List<User> queryByOptionalField(User user) {
+        return this.userDao.queryByOptionalField(user);
     }
 }

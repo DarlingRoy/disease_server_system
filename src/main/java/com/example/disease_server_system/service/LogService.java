@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 日志表(Log)表服务接口
  *
- * @author makejava
- * @since 2020-05-23 10:56:22
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 public interface LogService {
 
@@ -18,15 +18,13 @@ public interface LogService {
      * @return 实例对象
      */
     Log queryById(Integer id);
-
+ 
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
-    List<Log> queryAllByLimit(int offset, int limit);
+    List<Log> queryAll();
 
     /**
      * 新增数据
@@ -51,5 +49,20 @@ public interface LogService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
-
+    
+    /**
+     * 选择性插入数据
+     *
+     * @param log 实例对象
+     * @return 实例对象
+     */
+    Log insertSelective(Log log);
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     Integer count();
+     
 }

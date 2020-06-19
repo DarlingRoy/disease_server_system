@@ -1,59 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.disease_server_system.mapper.PermissionDao">
+<mapper namespace="com.example.disease_server_system.dao.PermissionDao">
 
     <resultMap type="com.example.disease_server_system.entity.Permission" id="PermissionMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
     </resultMap>
-
-    <sql id="Base_Column_List">
-        id, name, parent_id, description
-    </sql>
+    
+    <sql id="base_column_list">
+        id, name, parent_id, description, url    </sql>
 
     <!--查询单个-->
     <select id="queryById" resultMap="PermissionMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="base_column_list" />
+        
         from disease_system.permission
         where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="PermissionMap">
-        select
-        <include refid="Base_Column_List" />
-        from disease_system.permission
-        limit #{offset}, #{limit}
-    </select>
-
-    <!--通过实体作为筛选条件查询-->
+    <!--查询所有-->
     <select id="queryAll" resultMap="PermissionMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="base_column_list" />
+
         from disease_system.permission
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="parentId != null">
-                and parent_id = #{parentId}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
-        </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into disease_system.permission(name, parent_id, description)
-        values (#{name}, #{parentId}, #{description})
+        insert into disease_system.permission(name, parent_id, description, url)
+        values (#{name}, #{parentId}, #{description}, #{url})
     </insert>
 
     <!--通过主键修改数据-->
@@ -69,6 +49,9 @@
             <if test="description != null and description != ''">
                 description = #{description},
             </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -77,6 +60,45 @@
     <delete id="deleteById">
         delete from disease_system.permission where id = #{id}
     </delete>
+    
+    <!--选择性的新增列-->
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true">
+        insert into disease_system.permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="description != null and description != ''">
+                description,
+            </if>
+            <if test="url != null and url != ''">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="description != null and description != ''">
+                #{description},
+            </if>
+            <if test="url != null and url != ''">
+                #{url},
+            </if>
+        </trim>        
+    </insert>
+    
+    <!--返回表行数-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*)
+        from disease_system.permission
+    </select>
 
     <!--通过userId找到user对应的权限-->
     <select id="queryByUserId" parameterType="Integer" resultMap="PermissionMap">

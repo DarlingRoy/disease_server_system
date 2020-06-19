@@ -1,22 +1,22 @@
 package com.example.disease_server_system.service.impl;
 
 import com.example.disease_server_system.entity.Role;
-import com.example.disease_server_system.mapper.RoleDao;
+import com.example.disease_server_system.dao.RoleDao;
 import com.example.disease_server_system.service.RoleService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- * (Role)表服务实现类
+ * 权限表(Role)表服务实现类
  *
- * @author makejava
- * @since 2020-05-23 11:01:25
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
-    @Resource
+    @Autowired
     private RoleDao roleDao;
 
     /**
@@ -29,17 +29,15 @@ public class RoleServiceImpl implements RoleService {
     public Role queryById(Integer id) {
         return this.roleDao.queryById(id);
     }
-
+    
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
     @Override
-    public List<Role> queryAllByLimit(int offset, int limit) {
-        return this.roleDao.queryAllByLimit(offset, limit);
+    public List<Role> queryAll() {
+        return this.roleDao.queryAll();
     }
 
     /**
@@ -75,5 +73,38 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public boolean deleteById(Integer id) {
         return this.roleDao.deleteById(id) > 0;
+    }
+    
+    /**
+     * 选择性新增数据
+     *
+     * @param role 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public Role insertSelective(Role role) {
+        this.roleDao.insert(role);
+        return role;
+    }
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     @Override
+     public Integer count(){
+        return roleDao.count();
+     }
+
+    /**
+     * 根据用户id查询角色列表
+     *
+     * @param userId 用户id
+     * @return 角色列表
+     */
+    @Override
+    public String queryByUserId(Integer userId) {
+        return this.roleDao.queryByUserId(userId);
     }
 }

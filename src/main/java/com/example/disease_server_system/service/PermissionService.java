@@ -1,13 +1,15 @@
 package com.example.disease_server_system.service;
 
 import com.example.disease_server_system.entity.Permission;
+import com.example.disease_server_system.entity.User;
+
 import java.util.List;
 
 /**
  * 权限表(Permission)表服务接口
  *
- * @author makejava
- * @since 2020-05-23 10:59:33
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 public interface PermissionService {
 
@@ -18,15 +20,13 @@ public interface PermissionService {
      * @return 实例对象
      */
     Permission queryById(Integer id);
-
+ 
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
-    List<Permission> queryAllByLimit(int offset, int limit);
+    List<Permission> queryAll();
 
     /**
      * 新增数据
@@ -51,6 +51,21 @@ public interface PermissionService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+    
+    /**
+     * 选择性插入数据
+     *
+     * @param permission 实例对象
+     * @return 实例对象
+     */
+    Permission insertSelective(Permission permission);
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     Integer count();
 
     /**
      * 通过userId找到user对应的权限
@@ -59,5 +74,5 @@ public interface PermissionService {
      * @return
      */
     List<Permission> queryByUserId(Integer userId);
-
+     
 }

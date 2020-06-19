@@ -1,22 +1,23 @@
 package com.example.disease_server_system.service.impl;
 
+import com.example.disease_server_system.bo.DangerousNum;
 import com.example.disease_server_system.entity.Health;
-import com.example.disease_server_system.mapper.HealthDao;
+import com.example.disease_server_system.dao.HealthDao;
 import com.example.disease_server_system.service.HealthService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
  * 健康状况记录表(Health)表服务实现类
  *
- * @author makejava
- * @since 2020-05-23 10:47:43
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 @Service("healthService")
 public class HealthServiceImpl implements HealthService {
-    @Resource
+    @Autowired
     private HealthDao healthDao;
 
     /**
@@ -29,17 +30,15 @@ public class HealthServiceImpl implements HealthService {
     public Health queryById(Integer id) {
         return this.healthDao.queryById(id);
     }
-
+    
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
     @Override
-    public List<Health> queryAllByLimit(int offset, int limit) {
-        return this.healthDao.queryAllByLimit(offset, limit);
+    public List<Health> queryAll() {
+        return this.healthDao.queryAll();
     }
 
     /**
@@ -75,5 +74,57 @@ public class HealthServiceImpl implements HealthService {
     @Override
     public boolean deleteById(Integer id) {
         return this.healthDao.deleteById(id) > 0;
+    }
+    
+    /**
+     * 选择性新增数据
+     *
+     * @param health 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public Health insertSelective(Health health) {
+        this.healthDao.insert(health);
+        return health;
+    }
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     @Override
+     public Integer count(){
+        return healthDao.count();
+     }
+
+    /**
+     * 根据可选字段查询
+     *
+     * @return
+     */
+    @Override
+    public List<Health> queryByOptionalField(Health health) {
+        return healthDao.queryByOptionalField(health);
+    }
+
+    /**
+     * 统计当天内填报总人数
+     *
+     * @return
+     */
+    @Override
+    public Integer countTodayTotalNum() {
+        return healthDao.countTodayTotalNum();
+    }
+
+    /**
+     * 当天内 去过湖北、在国外、去过国外、接触过境人员、接触病例、非健康状态 的人数
+     *
+     * @return
+     */
+    @Override
+    public DangerousNum countTodayDangerousNum() {
+        return healthDao.countTodayDangerousNum();
     }
 }

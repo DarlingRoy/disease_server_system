@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * 用户表(User)表服务接口
  *
- * @author makejava
- * @since 2020-05-23 11:04:15
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 public interface UserService {
 
@@ -18,15 +18,13 @@ public interface UserService {
      * @return 实例对象
      */
     User queryById(Integer id);
-
+ 
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
-    List<User> queryAllByLimit(int offset, int limit);
+    List<User> queryAll();
 
     /**
      * 新增数据
@@ -51,6 +49,21 @@ public interface UserService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+    
+    /**
+     * 选择性插入数据
+     *
+     * @param user 实例对象
+     * @return 实例对象
+     */
+    User insertSelective(User user);
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     Integer count();
 
     /**
      * 通过邮箱查询用户
@@ -60,4 +73,11 @@ public interface UserService {
      */
     User queryByEmail(String email);
 
+    /**
+     * 根据可选字段查询用户
+     * @param user 用户可选字段
+     * @return 用户列表
+     */
+    List<User> queryByOptionalField(User user) ;
+     
 }

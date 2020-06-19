@@ -1,22 +1,22 @@
 package com.example.disease_server_system.service.impl;
 
 import com.example.disease_server_system.entity.Permission;
-import com.example.disease_server_system.mapper.PermissionDao;
+import com.example.disease_server_system.dao.PermissionDao;
 import com.example.disease_server_system.service.PermissionService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
  * 权限表(Permission)表服务实现类
  *
- * @author makejava
- * @since 2020-05-23 10:59:33
+ * @author linqx
+ * @since 2020-06-18 11:44:02
  */
 @Service("permissionService")
 public class PermissionServiceImpl implements PermissionService {
-    @Resource
+    @Autowired
     private PermissionDao permissionDao;
 
     /**
@@ -29,17 +29,15 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission queryById(Integer id) {
         return this.permissionDao.queryById(id);
     }
-
+    
     /**
-     * 查询多条数据
+     * 查询所有数据
      *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
      * @return 对象列表
      */
     @Override
-    public List<Permission> queryAllByLimit(int offset, int limit) {
-        return this.permissionDao.queryAllByLimit(offset, limit);
+    public List<Permission> queryAll() {
+        return this.permissionDao.queryAll();
     }
 
     /**
@@ -76,6 +74,28 @@ public class PermissionServiceImpl implements PermissionService {
     public boolean deleteById(Integer id) {
         return this.permissionDao.deleteById(id) > 0;
     }
+    
+    /**
+     * 选择性新增数据
+     *
+     * @param permission 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public Permission insertSelective(Permission permission) {
+        this.permissionDao.insert(permission);
+        return permission;
+    }
+    
+    /**
+     * 返回表行数
+     *
+     * @return 返回表行数
+     */
+     @Override
+     public Integer count(){
+        return permissionDao.count();
+     }
 
     /**
      * 通过userId找到user对应的权限
@@ -87,4 +107,6 @@ public class PermissionServiceImpl implements PermissionService {
     public List<Permission> queryByUserId(Integer userId){
         return permissionDao.queryByUserId(userId);
     }
+
+
 }
