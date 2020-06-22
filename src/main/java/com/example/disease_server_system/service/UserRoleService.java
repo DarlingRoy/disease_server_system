@@ -1,15 +1,15 @@
 package com.example.disease_server_system.service;
 
-import com.example.disease_server_system.entity.Role;
+import com.example.disease_server_system.entity.UserRole;
 import java.util.List;
 
 /**
- * 权限表(Role)表服务接口
+ * 用户角色中间表(UserRole)表服务接口
  *
  * @author linqx
- * @since 2020-06-18 11:44:02
+ * @since 2020-06-22 13:08:21
  */
-public interface RoleService {
+public interface UserRoleService {
 
     /**
      * 通过ID查询单条数据
@@ -17,30 +17,30 @@ public interface RoleService {
      * @param id 主键
      * @return 实例对象
      */
-    Role queryById(Integer id);
+    UserRole queryById(Integer id);
  
     /**
      * 查询所有数据
      *
      * @return 对象列表
      */
-    List<Role> queryAll();
+    List<UserRole> queryAll();
 
     /**
      * 新增数据
      *
-     * @param role 实例对象
+     * @param userRole 实例对象
      * @return 实例对象
      */
-    Role insert(Role role);
+    UserRole insert(UserRole userRole);
 
     /**
      * 修改数据
      *
-     * @param role 实例对象
+     * @param userRole 实例对象
      * @return 实例对象
      */
-    Role update(Role role);
+    UserRole update(UserRole userRole);
 
     /**
      * 通过主键删除数据
@@ -53,10 +53,10 @@ public interface RoleService {
     /**
      * 选择性插入数据
      *
-     * @param role 实例对象
+     * @param userRole 实例对象
      * @return 实例对象
      */
-    Role insertSelective(Role role);
+    UserRole insertSelective(UserRole userRole);
     
     /**
      * 返回表行数
@@ -64,17 +64,5 @@ public interface RoleService {
      * @return 返回表行数
      */
      Integer count();
-
-    /**
-     * 根据用户id查询角色列表
-     * @param userId 用户id
-     * @return 角色列表
-     */
-     String queryByUserId(Integer userId);
-
-    /**
-     * 根据角色名查询角色
-     */
-    Role queryByRoleName(String roleName);
-
+     
 }

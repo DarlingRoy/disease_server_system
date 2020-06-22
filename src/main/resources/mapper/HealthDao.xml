@@ -14,14 +14,7 @@
         <result property="contactForeigner" column="contact_foreigner" jdbcType="BOOLEAN"/>
     </resultMap>
 
-    <resultMap type="com.example.disease_server_system.bo.DangerousNum" id="DangerousMap" autoMapping="true">
-        <result property="huBei" column="hu_bei" jdbcType="INTEGER"/>
-        <result property="peopleAbroad" column="people_abroad" jdbcType="INTEGER"/>
-        <result property="abroad" column="abroad" jdbcType="INTEGER"/>
-        <result property="contactCase" column="contact_case" jdbcType="INTEGER"/>
-        <result property="contactForeigner" column="contact_foreigner" jdbcType="INTEGER"/>
-        <result property="myPhysicalCondition" column="my_physical_condition" jdbcType="INTEGER"/>
-    </resultMap>
+
     <sql id="base_column_list">
         id, user_id, my_physical_condition, family_physical_condition, hu_bei, abroad, foreign_relatives, contact_case, contact_foreigner    </sql>
 
@@ -186,18 +179,32 @@
         WHERE to_days(current_time) = to_days(now())
     </select>
 
+    <resultMap type="com.example.disease_server_system.bo.DangerousNum" id="DangerousMap" autoMapping="true">
+        <result property="huBei" column="hu_bei" jdbcType="INTEGER"/>
+        <result property="foreignRelatives" column="foreign_relatives" jdbcType="INTEGER"/>
+        <result property="abroad" column="abroad" jdbcType="INTEGER"/>
+        <result property="contactCase" column="contact_case" jdbcType="INTEGER"/>
+        <result property="contactForeigner" column="contact_foreigner" jdbcType="INTEGER"/>
+        <result property="myPhysicalCondition" column="my_physical_condition" jdbcType="INTEGER"/>
+    </resultMap>
+
     <select id="countTodayDangerousNum" resultMap="DangerousMap">
         select *
         from (select count(*) as hu_bei from disease_system.health
         where to_days(current_time) = to_days(now()) and hu_bei = 1) as A ,
-            (select count(*) as people_abroad from disease_system.health
-                where to_days(current_time) = to_days(now()) and people_abroad = 1) as B,
+
+            (select count(*) as foreign_relatives from disease_system.health
+                where to_days(current_time) = to_days(now()) and foreign_relatives = 1) as B,
+
             (select count(*) as abroad from disease_system.health
                 where to_days(current_time) = to_days(now()) and abroad = 1) as C,
+
             (select count(*) as contact_foreigner from disease_system.health
                 where to_days(current_time) = to_days(now()) and contact_foreigner = 1) as D,
+
             (select count(*) as contact_case from disease_system.health
                 where to_days(current_time) = to_days(now()) and contact_case = 1) as E,
+
             (select count(*) as my_physical_condition from disease_system.health
                 where to_days(current_time) = to_days(now()) and my_physical_condition != "正常") as F
     </select>

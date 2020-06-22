@@ -107,4 +107,14 @@ public class RoleServiceImpl implements RoleService {
     public String queryByUserId(Integer userId) {
         return this.roleDao.queryByUserId(userId);
     }
+
+    /**
+     * 根据角色名查询角色
+     *
+     * @param roleName
+     */
+    @Override
+    public Role queryByRoleName(String roleName) {
+        return this.roleDao.queryByRoleName(roleName);
+    }
 }

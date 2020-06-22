@@ -21,7 +21,7 @@ public class DangerousNum {
      * 在国外
      */
     @ApiModelProperty("人在国外")
-    private Integer peopleAbroad;
+    private Integer foreignRelatives;
 
     /**
      * 最近出国（一个月内）

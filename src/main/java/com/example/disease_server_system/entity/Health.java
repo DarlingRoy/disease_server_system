@@ -1,5 +1,6 @@
 package com.example.disease_server_system.entity;
 
+import java.util.Date;
 import java.io.Serializable;
 import io.swagger.annotations.*;
 import lombok.Data;
@@ -8,12 +9,12 @@ import lombok.Data;
  * 健康状况记录表(Health)实体类
  *
  * @author linqx
- * @since 2020-06-18 11:44:02
+ * @since 2020-06-22 12:31:57
  */
 @Data
 @ApiModel("健康状况记录表")
 public class Health implements Serializable {
-    private static final long serialVersionUID = 705825181611924788L;
+    private static final long serialVersionUID = -27402512464100673L;
     /**
     * 健康表id
     */    
@@ -40,6 +41,11 @@ public class Health implements Serializable {
     @ApiModelProperty("最近是否去过湖北（一个月内）")
     private Boolean huBei;
     /**
+    * 人是否在国外
+    */    
+    @ApiModelProperty("人是否在国外")
+    private Boolean peopleAbroad;
+    /**
     * 最近是否出国（一个月内）
     */    
     @ApiModelProperty("最近是否出国（一个月内）")
@@ -59,5 +65,15 @@ public class Health implements Serializable {
     */    
     @ApiModelProperty("最近是否接触到外国人员")
     private Boolean contactForeigner;
+    /**
+    * 创建时间
+    */    
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+    /**
+    * 更新时间
+    */    
+    @ApiModelProperty("更新时间")
+    private Date updateTime;
 
 }

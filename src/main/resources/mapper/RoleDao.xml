@@ -107,4 +107,13 @@
         where user.id = #{userId}
     </select>
 
+    <!--根据角色名查询角色-->
+    <select id="queryByRoleName" resultMap="RoleMap">
+        select
+            <include refid="base_column_list"/>
+        from role
+        where name = #{roleName}
+    </select>
+
+
 </mapper>

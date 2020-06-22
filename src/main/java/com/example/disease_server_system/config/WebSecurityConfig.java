@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().
-                antMatchers("swagger-ui.html").permitAll().
+                antMatchers("/user/register").permitAll().
                 anyRequest().authenticated().
                 //登出
                 and().logout().

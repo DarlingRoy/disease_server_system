@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80015
 File Encoding         : 65001
 
-Date: 2020-06-19 10:21:55
+Date: 2020-06-22 13:54:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,8 +30,8 @@ CREATE TABLE `health` (
   `foreign_relatives` tinyint(1) NOT NULL COMMENT '是否有外国亲戚',
   `contact_case` tinyint(1) NOT NULL COMMENT '是否接触过疑似/确诊病例（一个月内）',
   `contact_foreigner` tinyint(1) NOT NULL COMMENT '最近是否接触到外国人员',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `health_user_id` (`user_id`),
   CONSTRAINT `health_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

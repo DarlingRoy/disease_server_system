@@ -2,8 +2,13 @@ package com.example.disease_server_system.controller;
 
 import com.example.disease_server_system.common.entity.JsonResult;
 import com.example.disease_server_system.common.utils.ResultTool;
+import com.example.disease_server_system.entity.Role;
 import com.example.disease_server_system.entity.User;
+import com.example.disease_server_system.entity.UserRole;
+import com.example.disease_server_system.service.RoleService;
+import com.example.disease_server_system.service.UserRoleService;
 import com.example.disease_server_system.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +31,12 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     /**
      * 通过主键查询单条数据
@@ -111,8 +122,37 @@ public class UserController {
      * @return 用户列表
      */
     @ApiOperation(value = "根据可选字段查询用户")
-    @PostMapping("selectByOptionalField")
+    @GetMapping("selectByOptionalField")
      public JsonResult selectByOptionalField(User user) {
          return ResultTool.success(this.userService.queryByOptionalField(user));
      }
+
+    /**
+     * 用户注册接口
+     */
+    @ApiOperation(value = "用户注册接口")
+    @PostMapping("register")
+    @Transactional
+    public JsonResult register(User user, @ApiParam(value = "角色名称") String roleName) {
+        User newUser = this.userService.insertSelective(user);
+        Role role = roleService.queryByRoleName(roleName);
+        if (role != null) {
+            UserRole userRole = new UserRole();
+            userRole.setUserId(newUser.getId());
+            userRole.setRoleId(role.getId());
+            userRoleService.insertSelective(userRole);
+        }
+        if (role == null) {
+            role = new Role();
+            role.setName("roleName");
+            role = roleService.insertSelective(role);
+            UserRole userRole = new UserRole();
+            userRole.setUserId(newUser.getId());
+            userRole.setRoleId(role.getId());
+            userRoleService.insertSelective(userRole);
+        }
+        return ResultTool.success();
+    }
+
+
 }

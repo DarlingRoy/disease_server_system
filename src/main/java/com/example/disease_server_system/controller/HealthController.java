@@ -132,7 +132,7 @@ public class HealthController {
         return ResultTool.success(this.healthService.countTodayTotalNum());
     }
 
-    @ApiOperation(value = "当天内 去过湖北、在国外、去过国外、接触过境人员、接触病例、非健康状态 的人数")
+    @ApiOperation(value = "当天内 去过湖北、有外国亲戚、去过国外、接触过境人员、接触病例、非健康状态 的人数")
     @GetMapping("countTodayDangerousNum")
     public JsonResult countTodayDangerousNum() {
         return ResultTool.success(this.healthService.countTodayDangerousNum());
