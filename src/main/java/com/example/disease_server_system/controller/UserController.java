@@ -8,6 +8,7 @@ import com.example.disease_server_system.entity.UserRole;
 import com.example.disease_server_system.service.RoleService;
 import com.example.disease_server_system.service.UserRoleService;
 import com.example.disease_server_system.service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
@@ -37,6 +38,9 @@ public class UserController {
 
     @Autowired
     private UserRoleService userRoleService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 通过主键查询单条数据
@@ -122,7 +126,7 @@ public class UserController {
      * @return 用户列表
      */
     @ApiOperation(value = "根据可选字段查询用户")
-    @GetMapping("selectByOptionalField")
+    @PostMapping("selectByOptionalField")
      public JsonResult selectByOptionalField(User user) {
          return ResultTool.success(this.userService.queryByOptionalField(user));
      }
@@ -134,6 +138,7 @@ public class UserController {
     @PostMapping("register")
     @Transactional
     public JsonResult register(User user, @ApiParam(value = "角色名称") String roleName) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         User newUser = this.userService.insertSelective(user);
         Role role = roleService.queryByRoleName(roleName);
         if (role != null) {

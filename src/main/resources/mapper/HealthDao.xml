@@ -12,11 +12,14 @@
         <result property="foreignRelatives" column="foreign_relatives" jdbcType="BOOLEAN"/>
         <result property="contactCase" column="contact_case" jdbcType="BOOLEAN"/>
         <result property="contactForeigner" column="contact_foreigner" jdbcType="BOOLEAN"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
     <sql id="base_column_list">
-        id, user_id, my_physical_condition, family_physical_condition, hu_bei, abroad, foreign_relatives, contact_case, contact_foreigner    </sql>
+        id, user_id, my_physical_condition, family_physical_condition, hu_bei, abroad,
+        foreign_relatives, contact_case, contact_foreigner, create_time, update_time    </sql>
 
     <!--查询单个-->
     <select id="queryById" resultMap="HealthMap">
